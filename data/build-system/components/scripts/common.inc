@@ -54,7 +54,7 @@ function log {
 
 # marker function
 function marker {
-  log "${yellow}===== ${blue}$1 ${yellow}====="
+  log "${yellow}===== ${blue}$1 ${yellow}=====${reset}"
 }
 
 marker "$0"

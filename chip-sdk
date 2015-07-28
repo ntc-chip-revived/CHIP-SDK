@@ -1,0 +1,103 @@
+#!/bin/bash
+#
+# The MIT License (MIT)
+#
+# Copyright (c) 2015 Next Thing Co.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+#
+
+
+# argument settings
+#	NAND_ERASE_BB=true
+#	DEBUG=true
+#	VERBOSE=false
+
+#	# parse arguments
+#	TEMP=`getopt -o e,d,v: --long erase-bb,debug,verbose -n '01-generate-uboot-script.sh' -- "$@"`
+#	eval set -- "$TEMP"
+#	
+#	while true ; do
+#	    case "$1" in
+#	        -e|--erase-bb) NAND_ERASE_BB=true ; shift ;;
+#	        -d|--debug) DEBUG=true ; shift ;;
+#	        -v|--verbose) VERBOSE=true ; shift ;;
+#	        --) shift ; break ;;
+#	        *) echo "Internal error!" ; exit 1 ;;
+#	    esac
+#	done
+
+
+OUTPUT_DIR="`pwd`/images"
+LOG_DIR="`pwd`/logs"
+DOCKER_IMAGE="zerotri/chip-buildroot"
+
+VERBOSE=false
+
+# parse arguments
+TEMP=`getopt -o b,f,l,v: --long build,flash,login,verbose -n 'chip-sdk' -- "$@"`
+eval set -- "$TEMP"
+
+while true ; do
+    case "$1" in
+        -b|--build) TARGET=build ; shift ;;
+        -f|--flash) TARGET=flash ; shift ;;
+        -l|--login) TARGET=login ; shift ;;
+        -v|--verbose) VERBOSE=true ; shift ;;
+        --) shift ; break ;;
+		*) echo "$0: error - unrecognized option $1" 1>&2; exit 1;;
+        # *) echo "Internal error!" ; exit 1 ;;
+    esac
+done
+
+
+function build-firmware {
+	if [ ! -d "${OUTPUT_DIR}" ]; then
+		mkdir "${OUTPUT_DIR}"
+	fi
+	
+	if [ ! -d "${LOG_DIR}" ]; then
+		mkdir "${LOG_DIR}"
+	fi
+	
+	docker pull ${DOCKER_IMAGE}
+	docker run -e TERM=${TERM} -v ${OUTPUT_DIR}:/chip-sdk/build-system/output/images -v ${LOG_DIR}:/chip-sdk/build-system/logs -t ${DOCKER_IMAGE}
+}
+
+function flash-firmware {
+	exit;
+}
+
+function login-to-builder {
+	if [ ! -d "${OUTPUT_DIR}" ]; then
+		mkdir "${OUTPUT_DIR}"
+	fi
+	
+	if [ ! -d "${LOG_DIR}" ]; then
+		mkdir "${LOG_DIR}"
+	fi
+	
+	docker pull ${DOCKER_IMAGE}
+	docker run -e TERM=${TERM} -v ${OUTPUT_DIR}:/chip-sdk/build-system/output/images -v ${LOG_DIR}:/chip-sdk/build-system/logs -i -t ${DOCKER_IMAGE} /bin/bash
+}
+case "$TARGET" in
+	build) build-firmware ;;
+	flash) flash-firmware ;;
+	login) login-to-builder ;;
+esac

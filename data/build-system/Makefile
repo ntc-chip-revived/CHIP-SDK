@@ -1,25 +1,25 @@
-BLACK				=	$(shell tput setaf 0)
-RED					=	$(shell tput setaf 1)
-GREEN				=	$(shell tput setaf 2)
-YELLOW				=	$(shell tput setaf 3)
-BLUE				=	$(shell tput setaf 4)
-MAGENTA				=	$(shell tput setaf 5)
-CYAN				=	$(shell tput setaf 6)
-WHITE				=	$(shell tput setaf 7)
-RESET				=	$(shell tput sgr0)
+BLACK						=	$(shell tput setaf 0)
+RED							=	$(shell tput setaf 1)
+GREEN						=	$(shell tput setaf 2)
+YELLOW						=	$(shell tput setaf 3)
+BLUE						=	$(shell tput setaf 4)
+MAGENTA						=	$(shell tput setaf 5)
+CYAN						=	$(shell tput setaf 6)
+WHITE						=	$(shell tput setaf 7)
+RESET						=	$(shell tput sgr0)
 
-TOPDIR				:=	$(shell pwd)
+TOPDIR						:=	$(shell pwd)
 
-BR_DIRECTORY			:=	$(TOPDIR)/components/buildroot
-OUTPUT_DIRECTORY		:=	$(TOPDIR)/output
-EXTERNAL_DIRECTORY		:=	$(TOPDIR)/components
-LOG_DIRECTORY		:=	$(TOPDIR)/logs
+BR_DIRECTORY				:=	$(TOPDIR)/components/buildroot
+OUTPUT_DIRECTORY			:=	$(TOPDIR)/output
+EXTERNAL_DIRECTORY			:=	$(TOPDIR)/components
+LOG_DIRECTORY				:=	$(TOPDIR)/logs
 
-LOG_NAME			:=	$(TOPDIR)/logs/`date +"%d-%m-%Y-%s"`
+LOG_NAME					:=	$(TOPDIR)/logs/`date +"%d-%m-%Y-%s"`
 
 BR2_LINUX_KERNEL_PATCH		:=	$(TOPDIR)/components/patches/linux/*
-MAKE_BR				:=	BR2_LINUX_KERNEL_PATCH=$(BR2_LINUX_KERNEL_PATCH) make --silent -C $(BR_DIRECTORY) BR2_EXTERNAL=$(EXTERNAL_DIRECTORY) O=$(OUTPUT_DIRECTORY)
-BR_TARGETS			:=	$(shell $(MAKE_BR) show-targets)
+MAKE_BR						:=	BR2_LINUX_KERNEL_PATCH=$(BR2_LINUX_KERNEL_PATCH) make --silent -C $(BR_DIRECTORY) BR2_EXTERNAL=$(EXTERNAL_DIRECTORY) O=$(OUTPUT_DIRECTORY)
+BR_TARGETS					:=	$(shell $(MAKE_BR) show-targets)
 
 
 
