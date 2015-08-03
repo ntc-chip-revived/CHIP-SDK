@@ -59,9 +59,11 @@ if [ -z "${TARGETDIR}" ]; then
   TARGETDIR=`pwd`
   PROJECT_ROOT="${TARGETDIR}"
 else
-  PROJECT_ROOT="${TARGETDIR}/../.."
+  PROJECT_ROOT="${TARGETDIR}/../../.."
 fi
 
+echo $PROJECT_ROOT
+exit 1
 BUILDROOT_OUTPUT_DIR="${PROJECT_ROOT}/output"
 
 # output if nand erase is enabled
@@ -70,7 +72,7 @@ if [ ${NAND_ERASE_BB} == true ]; then
 fi
 
 # executables
-MKIMAGE="output/host/usr/bin/mkimage"
+MKIMAGE="${PROJECT_ROOT}/output/host/usr/bin/mkimage"
 
 # temporary data
 TMPDIR=`mktemp -d`

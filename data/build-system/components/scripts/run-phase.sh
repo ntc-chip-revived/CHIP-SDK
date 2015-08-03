@@ -46,7 +46,7 @@ if [ -d "${DIR}/${PHASE}" ]; then
   # we find all files in ./provisioning-scripts and if they
   # have the format 'host-###-<script name>.sh' then run them
   for file in "${DIR}/${PHASE}/*"; do
-    if [ -n `echo "$(basename ${file})" | grep -E 'host\-[0-9]{3}\-.*\.sh'` ]; then
+    if [ -n `echo "$(basename ${file})" | grep -E '[0-9]{3}\-.*\.sh'` ]; then
       $file $@
       log ""
     fi
