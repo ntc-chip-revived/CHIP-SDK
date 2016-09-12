@@ -17,6 +17,7 @@ sudo apt-get -y install \
  android-tools-fsutils \
  python-dev \
  python-pip \
+ ppp \
  libusb-1.0-0-dev \
  g++-arm-linux-gnueabihf \
  pkg-config
